@@ -48,7 +48,7 @@ Comprehensive technical architecture documentation for the wolfSSL FIPS 140-3 Ja
 │  └────────────────────────────────────────────────────────────┘  │
 │  ┌────────────────────────────────────────────────────────────┐  │
 │  │ 3-5. FilteredSun* (non-crypto services only)              │  │
-│  │    Services: CertificateFactory, KeyStore.JKS, Policy     │  │
+│  │    Services: CertificateFactory, Policy (JKS not a FIPS keystore service) │  │
 │  └────────────────────────────────────────────────────────────┘  │
 └──────────────────────┬───────────────────────────────────────────┘
                        │
@@ -219,7 +219,7 @@ Native:   wc_Sha256Final((wc_Sha256*)ctx, hash)  [libwolfssl.so]
 **Details**:
 - Version: wolfSSL FIPS v5.8.2
 - Certificate: FIPS 140-3 #4718
-- Location: `/usr/local/lib/libwolfssl.so.42`
+- Location: `/usr/local/lib/libwolfssl.so.44`
 - Build Options:
   - `--enable-fips=v5` (FIPS 140-3 mode)
   - `--enable-jni` (JNI support)
@@ -697,9 +697,9 @@ Initialize security.provider.1 (wolfJCE)
 │   ↓
 │   Search LD_LIBRARY_PATH
 │   ↓
-│   Found at /usr/local/lib/libwolfssl.so.42
+│   Found at /usr/local/lib/libwolfssl.so.44
 │   ↓
-│   Load libwolfssl.so.42
+│   Load libwolfssl.so.44
 │   ↓
 │   Execute wolfCrypt_Init()
 │   ↓
@@ -856,7 +856,7 @@ Application: TLS connection established
 
 ---
 
-**Last Updated**: 2025-01-XX
+**Last Updated**: 2026-03-19
 **Version**: 1.0
 **wolfSSL FIPS Version**: v5.8.2 (Certificate #4718)
 **OpenJDK Version**: 21

@@ -180,7 +180,7 @@ docker run --rm cr.root.io/java:17-jdk-jammy-ubuntu-22.04-fips java -version
 
 | Control | Test Coverage | Status |
 |---------|---------------|--------|
-| SV-238197 (FIPS mode) | Test 6 | ✅ PASS |
+| SV-238197 (FIPS mode) | Test 4 (OS FIPS suite) | ✅ PASS |
 | SV-238198 (Algorithm blocking) | Tests 1, 3 | ✅ PASS |
 | SV-238199 (Audit logging) | All tests | ✅ PASS |
 

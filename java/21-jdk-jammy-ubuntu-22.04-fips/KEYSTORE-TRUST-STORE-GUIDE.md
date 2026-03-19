@@ -1078,6 +1078,6 @@ keytool -importcert -alias newca \
 
 ---
 
-**Last Updated**: 2025-01-XX
+**Last Updated**: 2026-03-19
 **Version**: 1.0
 **wolfSSL FIPS Version**: v5.8.2 (Certificate #4718)

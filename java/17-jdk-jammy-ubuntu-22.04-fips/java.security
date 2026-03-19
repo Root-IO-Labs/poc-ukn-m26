@@ -1,5 +1,5 @@
 #
-# Based on rootpublic/openjdk:17-jdk-bookworm-slim java.security
+# Based on eclipse-temurin:17-jdk-jammy java.security
 # Modified for wolfSSL wolfCrypt FIPS Certificate #4718
 #
 # This is the "master security properties file".

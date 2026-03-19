@@ -277,8 +277,8 @@ RUN mkdir -p /opt/wolfssl-fips/bin \
     && mkdir -p /opt/wolfssl-fips/checksums \
     && { \
         sha256sum /usr/local/lib/libwolfssl.so*; \
-        sha256sum /usr/lib/libwolfcryptjni.so; \
-        sha256sum /usr/lib/libwolfssljni.so; \
+        sha256sum /usr/lib/jni/libwolfcryptjni.so; \
+        sha256sum /usr/lib/jni/libwolfssljni.so; \
         sha256sum /usr/share/java/wolfcrypt-jni.jar; \
         sha256sum /usr/share/java/wolfssl-jsse.jar; \
         sha256sum /usr/share/java/filtered-providers.jar; \

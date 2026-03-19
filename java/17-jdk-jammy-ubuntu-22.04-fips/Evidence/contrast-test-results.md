@@ -168,7 +168,7 @@ OpenJDK Runtime Environment Temurin-17.0.10+7 (build 17.0.10+7)
 OpenJDK 64-Bit Server VM Temurin-17.0.10+7 (build 17.0.10+7, mixed mode, sharing)
 ```
 
-### FIPS DISABLED Output (Hypothetical — without wolfJCE FIPS provider)
+### FIPS DISABLED Output (illustrative generic JDK — not from this image; hypothetical — without wolfJCE FIPS provider)
 
 ```
 # Without wolfJCE FIPS enforcement, standard JDK providers are active:
@@ -215,7 +215,7 @@ The multi-layer approach provides defense-in-depth:
 For Section 6 (Contrast Test) requirement:
 
 - ✅ Demonstrates behavior with FIPS enabled
-- ✅ Demonstrates behavior with FIPS disabled (provider removal skipped)
+- ⚠️ “FIPS disabled” column is **illustrative only** (this image does not ship a non-FIPS configuration); see note under *Evidence Files*
 - ✅ Provides clear side-by-side comparison
 - ✅ Proves enforcement is not superficial
 
@@ -242,40 +242,14 @@ security.provider.5=com.wolfssl.security.providers.FilteredSunEC
 - Cannot be bypassed without replacing the registered security providers
 
 
-## Java-Specific Enforcement Method 2
-
-The Java implementation uses a unique approach:
-
-```java
-// Static block in FipsDemoApp.java
-static {
-    for (Provider provider : Security.getProviders()) {
-        provider.remove("MessageDigest.MD5");
-        provider.remove("MessageDigest.SHA-1");
-        provider.remove("Signature.MD5withRSA");
-        provider.remove("Signature.SHA1withRSA");
-        // ... and related algorithms
-    }
-}
-```
-
-**This method:**
-- Removes algorithms at initialization time
-- Affects all code running in the JVM
-- Throws NoSuchAlgorithmException for blocked algorithms
-- Cannot be bypassed without modifying the application
-
-
----
-
 ## Evidence Files
 
 | File | Location | Purpose |
 |------|----------|---------|
 | **FIPS Enabled Output** | Default demo application run | Raw console output with FIPS enabled |
-| **FIPS Disabled Output** | Hypothetical (requires code modification) | Behavior without provider removal |
+| **FIPS Disabled Output** | N/A for this deliverable | A non-FIPS JVM is **not** published; illustrative text above describes expected JDK behavior only |
 | **This Document** | `contrast-test-results.md` | Analysis and comparison |
-| **Source Code** | `src/FipsDemoApp.java` | FIPS enforcement implementation |
+| **Enforcement configuration** | `java.security` in this repository | Provider order and FIPS policy |
 
 ---
 

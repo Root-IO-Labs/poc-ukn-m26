@@ -1,5 +1,5 @@
 #
-# Based on eclipse-temurin:11-jdk-jammy java.security
+# Based on eclipse-temurin:8-jdk-jammy java.security
 # Modified for wolfSSL wolfCrypt FIPS Certificate #4718
 #
 # This is the "master security properties file".

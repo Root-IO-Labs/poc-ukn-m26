@@ -344,7 +344,7 @@ Passed: 4, Failed: 0, Warnings: 3
 
 | Artifact | Status | Location | Standard |
 |----------|--------|----------|----------|
-| **SBOM** | ✅ | `compliance/generate-sbom.sh` (Trivy CycloneDX) | CycloneDX JSON |
+| **SBOM** | ✅ | `compliance/SBOM-*.spdx.json` (SPDX 2.3) | SPDX 2.3 JSON |
 | **VEX Documentation** | ✅ | `compliance/generate-vex.sh` | OpenVEX v0.2.0 |
 | **SLSA Attestation** | ✅ | `compliance/generate-slsa-attestation.sh` | SLSA v1.0 |
 | **Chain of Custody** | ✅ | `compliance/CHAIN-OF-CUSTODY.md` | Complete provenance |
@@ -358,7 +358,7 @@ Passed: 4, Failed: 0, Warnings: 3
 | Non-root user | ✅ | `USER appuser` (UID 1001); verified at runtime |
 | Library integrity | ✅ | `scripts/integrity-check.sh` — SHA-256 checksums on every startup |
 | File permissions | ✅ | Libraries 0644, keystore 0444, scripts 0755, no world-writable files |
-| Secret management | ✅ | Docker secrets for wolfSSL FIPS password (`--secret id=wolfssl_password`) |
+| Secret management | ✅ | Docker secrets for wolfSSL FIPS password (`--secret id=wolfssl_pw`) |
 | Vulnerability scanning | ✅ | VEX statements; Trivy-based SBOM with CVE data |
 | Build attestation | ✅ | SLSA provenance with build dependencies |
 | SCAP baseline | ✅ | 128/128 applicable STIG controls pass; 20 N/A with documented justifications |
@@ -371,7 +371,7 @@ Passed: 4, Failed: 0, Warnings: 3
 
 | File | Format | Standard | Generator |
 |------|--------|----------|-----------|
-| `SBOM-java-17-jdk-jammy-ubuntu-22.04-fips.cdx.json` | JSON | CycloneDX | `compliance/generate-sbom.sh` (Trivy) |
+| `SBOM-java-17-jdk-jammy-ubuntu-22.04-fips.spdx.json` | JSON | SPDX 2.3 | `compliance/generate-sbom.sh` (optional; Trivy can also emit CycloneDX) |
 | `vex-java-17-jdk-jammy-ubuntu-22.04-fips.json` | JSON | OpenVEX v0.2.0 | `compliance/generate-vex.sh` |
 | `slsa-provenance-java-17-jdk-jammy-ubuntu-22.04-fips.json` | JSON | SLSA v1.0 | `compliance/generate-slsa-attestation.sh` |
 | `CHAIN-OF-CUSTODY.md` | Markdown | Custom | `compliance/CHAIN-OF-CUSTODY.md` |
@@ -387,7 +387,7 @@ Passed: 4, Failed: 0, Warnings: 3
 | **Attach SLSA** | Cosign | `cosign attest --predicate slsa-provenance-*.json` |
 | **Verify SLSA** | Cosign | `cosign verify-attestation --type slsaprovenance` |
 
-### Generate CycloneDX SBOM
+### Regenerate SPDX SBOM (optional)
 
 ```bash
 # Regenerate SBOM from live image (writes to compliance/ and supply-chain/)
@@ -536,7 +536,7 @@ All FIPS-related STIG controls (SV-238197 through SV-238202) passed. See [SCAP-S
    ./diagnostic.sh
    ```
 
-4. **SBOM Refresh**: Regenerate CycloneDX SBOM after image updates:
+4. **SBOM Refresh**: Regenerate SPDX SBOM after image updates:
    ```bash
    cd java/17-jdk-jammy-ubuntu-22.04-fips/compliance
    ./generate-sbom.sh
@@ -545,7 +545,7 @@ All FIPS-related STIG controls (SV-238197 through SV-238202) passed. See [SCAP-S
 ### For Enhanced Security
 
 1. **Image Signing**: Sign images with Cosign before deployment to registry
-2. **SBOM Distribution**: Include CycloneDX SBOM with all image distributions
+2. **SBOM Distribution**: Include SPDX SBOM with all image distributions
 3. **VEX Updates**: Regenerate VEX statements after vulnerability scans
 4. **SLSA Attestation**: Attach provenance during CI/CD push
 
@@ -559,7 +559,7 @@ The `java:17-jdk-jammy-ubuntu-22.04-fips` container image **fully satisfies all 
 - ✅ **Test Case 2**: Java cryptographic validation — **100% VERIFIED**
 - ✅ **Test Case 3**: OS FIPS status check — **100% VERIFIED**
 - ✅ **Success Criteria**: All requirements met
-- ✅ **Compliance Artifacts**: Complete documentation (CycloneDX SBOM, VEX, SLSA, SCAP)
+- ✅ **Compliance Artifacts**: Complete documentation (SPDX SBOM, VEX, SLSA, SCAP)
 - ✅ **SCAP Baseline**: 128/128 applicable STIG controls passing, 0 failures
 
 **Final POC Status: ✅ APPROVED - 100% COMPLIANT**
@@ -583,7 +583,7 @@ The `java:17-jdk-jammy-ubuntu-22.04-fips` container image **fully satisfies all 
 3. wolfCrypt JNI/JCE: https://github.com/wolfSSL/wolfcrypt-jni
 4. wolfSSL JNI/JSSE: https://github.com/wolfSSL/wolfssljni
 5. SLSA v1.0 Specification: https://slsa.dev/spec/v1.0/
-6. CycloneDX Specification: https://cyclonedx.org/specification/overview/
+6. SPDX Specification: https://spdx.dev/use/spdx-2-3/
 7. OpenVEX Specification: https://github.com/openvex/spec
 8. Cosign Documentation: https://docs.sigstore.dev/cosign/overview/
 9. DISA STIG: https://public.cyber.mil/stigs/

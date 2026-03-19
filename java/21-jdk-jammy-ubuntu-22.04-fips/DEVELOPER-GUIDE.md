@@ -95,7 +95,7 @@ When you call `MessageDigest.getInstance("SHA-256")`:
 - **Mac**: HmacSHA1, HmacSHA224, HmacSHA256, HmacSHA384, HmacSHA512, HmacSHA3-*, AESCMAC, AESGMAC
 - **Cipher**: AES (CBC, ECB, CTR, GCM, CCM, OFB), RSA
 - **Signature**: SHA*withRSA, SHA*withECDSA, SHA3-*withRSA, SHA3-*withECDSA, RSASSA-PSS
-- **KeyGenerator**: AES, DES, DESede, HMAC*
+- **KeyGenerator**: AES, HMAC* (DES/DESede are **not** available via wolfJCE in FIPS mode)
 - **KeyPairGenerator**: RSA, EC, DH
 - **KeyAgreement**: ECDH, DH
 - **SecureRandom**: HashDRBG, DEFAULT
@@ -123,7 +123,7 @@ MessageDigest md = MessageDigest.getInstance("SHA-256", wolfJCE);
 **Purpose**: Implements Java Secure Socket Extension (JSSE) services using FIPS-validated wolfSSL TLS
 
 **Services Provided**:
-- **SSLContext**: SSL, TLS, TLSv1.2, TLSv1.3, DEFAULT
+- **SSLContext**: TLS, TLSv1.2, TLSv1.3, DEFAULT (`SSL` / SSLv3 are disabled by FIPS policy)
 - **KeyManagerFactory**: PKIX, X509, SunX509
 - **TrustManagerFactory**: PKIX, X509, SunX509
 - **KeyStore**: WKS (WolfSSL KeyStore)
@@ -152,7 +152,7 @@ These providers wrap standard Sun providers and filter out cryptographic algorit
 - CertStore.Collection
 - CertificateFactory.X.509
 - Configuration.JavaLoginConfig
-- KeyStore.JKS, KeyStore.PKCS12 (for compatibility - use WKS for FIPS)
+- KeyStore types: **WKS** for FIPS keystores; JKS/PKCS12 are not used in this image configuration (see KEYSTORE-TRUST-STORE-GUIDE.md)
 - Policy.JavaPolicy
 
 **FilteredSunRsaSign** (com.wolfssl.security.providers.FilteredSunRsaSign):
@@ -289,7 +289,7 @@ WKS (converted from JKS during build)
 changeitchangeit
 
 # Certificate count
-~130 CA certificates (varies by system)
+~140 CA certificates (varies by system)
 ```
 
 ### Loading WKS Trust Store in Code
@@ -1417,7 +1417,7 @@ docker run --rm java:21-jdk-jammy-ubuntu-22.04-fips bash -c \
 
 # Expected output:
 # LD_LIBRARY_PATH=/usr/lib/jni:/usr/local/lib
-# libwolfssl.so.42 => /usr/local/lib/libwolfssl.so.42
+# libwolfssl.so.44 => /usr/local/lib/libwolfssl.so.44
 # libwolfssljni.so => /usr/lib/jni/libwolfssljni.so
 # libwolfcryptjni.so => /usr/lib/jni/libwolfcryptjni.so
 ```
@@ -1513,7 +1513,7 @@ This is a living document. If you find issues or have suggestions:
 
 ---
 
-**Last Updated**: 2025-01-XX
+**Last Updated**: 2026-03-19
 **Version**: 1.0
 **wolfSSL FIPS Version**: v5.8.2 (Certificate #4718)
 **OpenJDK Version**: 21

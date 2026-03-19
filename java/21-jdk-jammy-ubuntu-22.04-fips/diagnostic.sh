@@ -1,6 +1,6 @@
 #!/bin/bash
 ################################################################################
-# Bookworm FIPS Java - Diagnostic Runner
+# Ubuntu Jammy FIPS Java - Diagnostic Runner
 #
 # Purpose: Execute FIPS validation diagnostics
 # Usage:
@@ -22,7 +22,7 @@ DIAGNOSTICS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/diagnostics"
 
 echo ""
 echo "================================================================================"
-echo -e "${BOLD}${CYAN}Bookworm FIPS Java - Diagnostic Runner${NC}"
+echo -e "${BOLD}${CYAN}Ubuntu Jammy FIPS Java - Diagnostic Runner${NC}"
 echo "================================================================================"
 echo ""
 

@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 
 # Multi-stage Dockerfile for FIPS-compliant Java container with wolfSSL
-# Base image: Eclipse Temurin OpenJDK 17 on Ubuntu Noble
+# Base image: Eclipse Temurin OpenJDK 17 on Ubuntu 22.04 (Jammy)
 
 # BuildKit secret used for wolfSSL commercial FIPS package password
 # Note: This is passed via --secret and does not appear in build history
@@ -273,8 +273,8 @@ RUN mkdir -p /opt/wolfssl-fips/bin \
     && mkdir -p /opt/wolfssl-fips/checksums \
     && { \
         sha256sum /usr/local/lib/libwolfssl.so*; \
-        sha256sum /usr/lib/libwolfcryptjni.so; \
-        sha256sum /usr/lib/libwolfssljni.so; \
+        sha256sum /usr/lib/jni/libwolfcryptjni.so; \
+        sha256sum /usr/lib/jni/libwolfssljni.so; \
         sha256sum /usr/share/java/wolfcrypt-jni.jar; \
         sha256sum /usr/share/java/wolfssl-jsse.jar; \
         sha256sum /usr/share/java/filtered-providers.jar; \

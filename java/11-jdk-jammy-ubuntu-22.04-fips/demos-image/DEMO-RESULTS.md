@@ -354,4 +354,4 @@ The container is properly configured for **FIPS 140-3 compliance** and ready for
 - wolfSSL FIPS 140-3 Certificate #4718
 - [NIST FIPS 140-3 Standards](https://csrc.nist.gov/projects/cryptographic-module-validation-program)
 - [wolfSSL FIPS Documentation](https://www.wolfssl.com/products/fips/)
-- [Java Security Guide](https://docs.oracle.com/en/java/javase/19/security/)
+- [Java Security Guide](https://docs.oracle.com/en/java/javase/11/security/)

@@ -6,10 +6,12 @@ FIPS 140-3 compliant Java Docker image using wolfSSL JNI providers for cryptogra
 
 This image provides a FIPS-validated Java environment using:
 - **OpenJDK 21 LTS** - Java Development Kit (Eclipse Temurin - Supported until September 2031)
-- **wolfSSL FIPS v5.2.3** - FIPS 140-3 Certificate #4718
-- **wolfCrypt JNI v1.1.0** - JCE provider (wolfJCE) with JNI bindings to wolfSSL FIPS
-- **wolfSSL JNI v1.13.0** - JSSE provider (wolfJSSE) with JNI bindings to wolfSSL FIPS
+- **wolfSSL v5.8.2** (FIPS 140-3 Certificate **#4718**; CMVP-validated cryptographic module **v5.2.3**)
+- **wolfCrypt JNI (Git `master`)** — **wolfJCE v1.9** (JCE provider) with JNI bindings to wolfSSL FIPS
+- **wolfSSL JNI (Git `master`)** — **wolfJSSE v1.16** (JSSE provider) with JNI bindings to wolfSSL FIPS
 - **Ubuntu 22.04 Jammy** - Container base (Eclipse Temurin official image)
+
+> **Note:** Provider versions above match the published `cr.root.io` image at documentation refresh time; run `FipsInitCheck` or `./diagnostic.sh` to confirm on your digest.
 
 ## Architecture
 
@@ -62,8 +64,7 @@ libwolfssl.so (FIPS 140-3 validated cryptographic module)
   - JAR: `/usr/share/java/filtered-providers.jar`
 
 ### Native FIPS Library
-- **wolfSSL FIPS v5.2.3**
-  - FIPS 140-3 Certificate #4718
+- **wolfSSL v5.8.2** (FIPS 140-3 Certificate #4718; CMVP-validated module v5.2.3)
   - Built with `--enable-fips=v5 --enable-jni`
   - In-core integrity check enabled
   - Located: `/usr/local/lib/libwolfssl.so`
@@ -200,7 +201,7 @@ See [FIPS-vs-NON-FIPS-MODES.md](FIPS-vs-NON-FIPS-MODES.md) for detailed comparis
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `JAVA_HOME` | `/usr/local/openjdk-21` | Java installation directory |
+| `JAVA_HOME` | `/opt/java/openjdk` | Java installation directory |
 | `JAVA_OPTS` | `-Xmx512m` | JVM options |
 | `JAVA_TOOL_OPTIONS` | (see Dockerfile) | JVM module access flags for filtered providers |
 | `JAVA_LIBRARY_PATH` | `/usr/lib/jni:/usr/local/lib` | Native library search path |
@@ -484,7 +485,7 @@ docker run --rm java:21-jdk-jammy-ubuntu-22.04-fips bash -c \
 
 Expected output:
 ```
-libwolfssl.so.42 (libc6,x86-64) => /usr/local/lib/libwolfssl.so.42
+libwolfssl.so.44 (libc6,x86-64) => /usr/local/lib/libwolfssl.so.44
 ```
 
 ### Verify WKS Cacerts
@@ -624,7 +625,7 @@ java/21-jdk-jammy-ubuntu-22.04-fips/
 ├── build.sh                            # Build script with password handling
 ├── diagnostic.sh                       # Diagnostic runner script
 ├── docker-entrypoint.sh                # Container entrypoint with FIPS checks
-├── wolfssl_password.txt                # wolfSSL commercial package password
+├── (local wolfSSL archive password via BuildKit secret — see Prerequisites; never commit)
 ├── java.security                       # FIPS java.security configuration
 ├── README.md                           # This file
 ├── DEVELOPER-GUIDE.md                  # Comprehensive developer guide
@@ -669,7 +670,7 @@ java/21-jdk-jammy-ubuntu-22.04-fips/
 │   ├── contrast-test-results.md
 │   └── fips-validation-screenshots/
 └── compliance/
-    ├── sbom-java-21-jdk-jammy-ubuntu-22.04-fips.spdx.json
+    ├── SBOM-java-21-jdk-jammy-ubuntu-22.04-fips.spdx.json
     ├── vex-java-21-jdk-jammy-ubuntu-22.04-fips.json
     ├── slsa-provenance-java-21-jdk-jammy-ubuntu-22.04-fips.json
     ├── generate-sbom.sh

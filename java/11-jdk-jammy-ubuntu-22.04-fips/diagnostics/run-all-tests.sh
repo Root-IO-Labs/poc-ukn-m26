@@ -8,7 +8,7 @@ NC='\033[0m'
 
 echo ""
 echo "================================================================================"
-echo -e "${BOLD}${CYAN}Debian FIPS Java - Test Suite${NC}"
+echo -e "${BOLD}${CYAN}Ubuntu Jammy FIPS Java - Test Suite${NC}"
 echo "================================================================================"
 echo ""
 

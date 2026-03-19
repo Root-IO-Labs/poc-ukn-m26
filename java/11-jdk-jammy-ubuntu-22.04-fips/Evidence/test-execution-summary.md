@@ -52,7 +52,7 @@ to validate FIPS compliance and security requirements.
 - ✅ wolfJCE at position 1, wolfJSSE at position 2
 - ✅ CA certificates verified in WKS format (140 certificates loaded)
 
-**Provider stack confirmed:** wolfJCE v1.9, wolfJSSE v1.16, FilteredSun, FilteredSunRsaSign, FilteredSunEC, plus JDK auxiliary providers.
+**Provider stack confirmed:** wolfJCE v1.9, wolfJSSE v1.13, FilteredSun, FilteredSunRsaSign, FilteredSunEC, plus JDK auxiliary providers.
 
 ---
 
@@ -134,7 +134,7 @@ docker run --rm cr.root.io/java:11-jdk-jammy-ubuntu-22.04-fips java -version
 - Library checksum verification: ALL FIPS COMPONENTS INTEGRITY VERIFIED
 - FIPS Container Verification: All Container Tests Passed
 - wolfJCE v1.9 provider at position 1
-- wolfJSSE v1.16 provider at position 2
+- wolfJSSE v1.13 provider at position 2
 - 140 CA certificates loaded in WKS format
 - FIPS POST test completed successfully
 - All 72/72 algorithm class tests passed
@@ -180,7 +180,7 @@ docker run --rm cr.root.io/java:11-jdk-jammy-ubuntu-22.04-fips java -version
 
 | Control | Test Coverage | Status |
 |---------|---------------|--------|
-| SV-238197 (FIPS mode) | Test 6 | ✅ PASS |
+| SV-238197 (FIPS mode) | Test 4 (OS FIPS suite) | ✅ PASS |
 | SV-238198 (Algorithm blocking) | Tests 1, 3 | ✅ PASS |
 | SV-238199 (Audit logging) | All tests | ✅ PASS |
 

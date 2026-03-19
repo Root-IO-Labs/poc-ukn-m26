@@ -23,7 +23,7 @@ by removing them from Java security providers, proving the enforcement is delibe
 ```bash
 # Java Security Configuration
 - wolfJCE v1.9 (wolfCrypt JCE Provider) at security.provider.1
-- wolfJSSE v1.16 (wolfSSL JSSE Provider) at security.provider.2
+- wolfJSSE v1.13 (wolfSSL JSSE Provider) at security.provider.2
 - FilteredSun, FilteredSunRsaSign, FilteredSunEC at positions 3-5
 - MD5 and DES/3DES unavailable via wolfJCE in FIPS mode
 - Only FIPS-approved algorithms routed through wolfJCE/wolfJSSE
@@ -93,7 +93,7 @@ This contrast test proves multiple layers of FIPS enforcement:
 
 ### Layer 2: TLS/Cipher Suite Enforcement (wolfJSSE)
 
-- **Controlled by:** wolfJSSE v1.16 FIPS cipher suite restrictions
+- **Controlled by:** wolfJSSE v1.13 FIPS cipher suite restrictions
 - **Blocks:** TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA, TLS_RSA_WITH_3DES_EDE_CBC_SHA, SSL_RSA_WITH_3DES_EDE_CBC_SHA
 - **Proof:** Banned cipher suites → UNAVAILABLE; X25519, X448 → UNAVAILABLE
 
@@ -127,7 +127,7 @@ ALL FIPS COMPONENTS INTEGRITY VERIFIED
 ================================================================================
 Currently loaded security providers:
   1. wolfJCE v1.9 - wolfCrypt JCE Provider
-  2. wolfJSSE v1.16 - wolfSSL JSSE Provider
+  2. wolfJSSE v1.13 - wolfSSL JSSE Provider
   3. FilteredSun v1.0 - Filtered SUN for non-crypto ops
   4. FilteredSunRsaSign v1.0 - Filtered SunRsaSign for non-crypto ops
   5. FilteredSunEC v1.0 - Filtered SunEC for non-crypto ops
@@ -168,7 +168,7 @@ OpenJDK Runtime Environment (build 1.8.0_402-b06)
 OpenJDK 64-Bit Server VM (build 25.402-b06, mixed mode)
 ```
 
-### FIPS DISABLED Output (Hypothetical — without wolfJCE FIPS provider)
+### FIPS DISABLED Output (illustrative generic JDK — not from this image; hypothetical — without wolfJCE FIPS provider)
 
 ```
 # Without wolfJCE FIPS enforcement, standard JDK providers are active:
@@ -206,7 +206,7 @@ This contrast test **conclusively demonstrates** that FIPS enforcement is:
 The multi-layer approach provides defense-in-depth:
 
 - **wolfJCE v1.9 FIPS provider** blocks MD5, DES, 3DES and other non-approved algorithms at JCA level
-- **wolfJSSE v1.16 FIPS provider** restricts TLS cipher suites and blocks 3DES, X25519, X448
+- **wolfJSSE v1.13 FIPS provider** restricts TLS cipher suites and blocks 3DES, X25519, X448
 - **FilteredSun wrappers** allow non-crypto Sun operations (cert parsing, policy) without exposing non-FIPS crypto
 - **java.security policy** disables weak algorithms in TLS and cert path validation via `jdk.tls.disabledAlgorithms`
 
@@ -215,7 +215,7 @@ The multi-layer approach provides defense-in-depth:
 For Section 6 (Contrast Test) requirement:
 
 - ✅ Demonstrates behavior with FIPS enabled
-- ✅ Demonstrates behavior with FIPS disabled (provider removal skipped)
+- ⚠️ “FIPS disabled” column is **illustrative only** (this image does not ship a non-FIPS configuration); see note under *Evidence Files*
 - ✅ Provides clear side-by-side comparison
 - ✅ Proves enforcement is not superficial
 
@@ -237,45 +237,19 @@ security.provider.5=com.wolfssl.security.providers.FilteredSunEC
 **This method:**
 - Enforces FIPS-approved algorithms at the wolfJCE provider level
 - wolfJCE v1.9 returns UNAVAILABLE for non-FIPS algorithms (MD5, DES, 3DES)
-- wolfJSSE v1.16 blocks non-FIPS TLS cipher suites and key exchange algorithms
+- wolfJSSE v1.13 blocks non-FIPS TLS cipher suites and key exchange algorithms
 - FilteredSun wrappers expose only non-crypto services from standard Sun providers
 - Cannot be bypassed without replacing the registered security providers
 
-
-## Java-Specific Enforcement Method 2
-
-The Java implementation uses a unique approach:
-
-```java
-// Static block in FipsDemoApp.java
-static {
-    for (Provider provider : Security.getProviders()) {
-        provider.remove("MessageDigest.MD5");
-        provider.remove("MessageDigest.SHA-1");
-        provider.remove("Signature.MD5withRSA");
-        provider.remove("Signature.SHA1withRSA");
-        // ... and related algorithms
-    }
-}
-```
-
-**This method:**
-- Removes algorithms at initialization time
-- Affects all code running in the JVM
-- Throws NoSuchAlgorithmException for blocked algorithms
-- Cannot be bypassed without modifying the application
-
-
----
 
 ## Evidence Files
 
 | File | Location | Purpose |
 |------|----------|---------|
 | **FIPS Enabled Output** | Default demo application run | Raw console output with FIPS enabled |
-| **FIPS Disabled Output** | Hypothetical (requires code modification) | Behavior without provider removal |
+| **FIPS Disabled Output** | N/A for this deliverable | A non-FIPS JVM is **not** published; illustrative text above describes expected JDK behavior only |
 | **This Document** | `contrast-test-results.md` | Analysis and comparison |
-| **Source Code** | `src/FipsDemoApp.java` | FIPS enforcement implementation |
+| **Enforcement configuration** | `java.security` in this repository | Provider order and FIPS policy |
 
 ---
 

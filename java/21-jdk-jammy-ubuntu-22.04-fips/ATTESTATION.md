@@ -67,7 +67,7 @@ All cryptographic operations occur within the FIPS boundary:
 
 **Version**: v5.8.2
 
-**Validation Date**: [See NIST CMVP]
+**Validation Date**: See the [NIST CMVP certificate listing for #4718](https://csrc.nist.gov/projects/cryptographic-module-validation-program/Certificate/4718)
 
 **Security Level**: Level 1
 
@@ -114,7 +114,7 @@ All cryptographic operations occur within the FIPS boundary:
 - Base Image: `eclipse-temurin:21-jdk-jammy`
 - Builder Image: Multi-stage Docker build
 - Build Tool: Docker BuildKit
-- Compiler: GCC (Ubuntu 22.04.2.0-14)
+- Compiler: GCC (version from Ubuntu 22.04 Jammy build image; record `gcc --version` from your build log)
 
 **Build Process**:
 1. Download wolfSSL FIPS bundle (commercial package)
@@ -192,6 +192,8 @@ All cryptographic operations occur within the FIPS boundary:
 
 **SBOM Format**: SPDX 2.3 (JSON)
 
+**Authoritative deliverable**: The committed file under `compliance/` is SPDX 2.3 (`SBOM-java-*-jdk-jammy-ubuntu-22.04-fips.spdx.json`). The optional `generate-sbom.sh` script may also produce CycloneDX for tooling—treat the **SPDX** artifact as the canonical SBOM for this POC unless your security program requires otherwise.
+
 **Generation**:
 ```bash
 # Generate SBOM
@@ -258,7 +260,7 @@ All cryptographic operations occur within the FIPS boundary:
   "version": 1,
   "statements": [
     {
-      "vulnerability": "CVE-2024-XXXXX",
+      "vulnerability": "CVE-YYYY-NNNNN",
       "products": ["java:21-jdk-jammy-ubuntu-22.04-fips"],
       "status": "not_affected",
       "justification": "component_not_present",
@@ -272,7 +274,8 @@ All cryptographic operations occur within the FIPS boundary:
 
 **Signing Method**: Cosign (Sigstore)
 
-# Verify signature
+```bash
+# Verify signature (example local tag; use your registry reference in production)
 cosign verify \
   --key cosign.pub \
   java:21-jdk-jammy-ubuntu-22.04-fips
@@ -297,7 +300,7 @@ cosign verify \
 # /opt/wolfssl-fips/checksums/libraries.sha256
 # SHA-256 checksums of all FIPS-related libraries
 
-a1b2c3d4... /usr/local/lib/libwolfssl.so.42
+a1b2c3d4... /usr/local/lib/libwolfssl.so.44
 e5f6g7h8... /usr/lib/jni/libwolfcryptjni.so
 i9j0k1l2... /usr/lib/jni/libwolfssljni.so
 m3n4o5p6... /usr/share/java/wolfcrypt-jni.jar
@@ -311,7 +314,7 @@ u1v2w3x4... /usr/share/java/filtered-providers.jar
 sha256sum -c /opt/wolfssl-fips/checksums/libraries.sha256
 
 # Expected output:
-# /usr/local/lib/libwolfssl.so.42: OK
+# /usr/local/lib/libwolfssl.so.44: OK
 # /usr/lib/jni/libwolfcryptjni.so: OK
 # ...
 ```
@@ -319,7 +322,7 @@ sha256sum -c /opt/wolfssl-fips/checksums/libraries.sha256
 **On Failure**:
 ```
 ERROR: FIPS library integrity verification failed!
-/usr/local/lib/libwolfssl.so.42: FAILED
+/usr/local/lib/libwolfssl.so.44: FAILED
 Container will terminate.
 ```
 
@@ -399,7 +402,7 @@ Testing wolfSSL algorithm class instantiation...
 	SecureRandom: DEFAULT -> wolfJCE
 	SSLContext: TLS -> wolfJSSE
 	TrustManagerFactory: PKIX -> wolfJSSE
-	Tests passed: 75/75
+	Tests passed: 72/72
 ```
 
 ---
@@ -715,7 +718,7 @@ docker run --rm java:21-jdk-jammy-ubuntu-22.04-fips | \
 
 **System**: Java FIPS Container
 **Version**: java:21-jdk-jammy-ubuntu-22.04-fips
-**Audit Date**: YYYY-MM-DD
+**Audit Date**: _(record at audit time)_
 **Auditor**: [Name]
 
 ## Executive Summary
@@ -756,7 +759,7 @@ System is compliant with FIPS 140-3 requirements.
 
 ---
 
-**Last Updated**: 2025-01-XX
+**Last Updated**: 2026-03-19
 **Version**: 1.0
 **wolfSSL FIPS Version**: v5.8.2 (Certificate #4718)
 **Compliance Framework**: FIPS 140-3, DISA STIG

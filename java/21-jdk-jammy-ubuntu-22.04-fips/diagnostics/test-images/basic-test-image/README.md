@@ -257,13 +257,13 @@ Demonstrating FIPS 140-3 validated operations
 
 === Provider Verification ===
 Currently loaded security providers:
-  1. wolfJCE v1.0 - wolfSSL JCE Provider
-  2. wolfJSSE v13.0 - wolfSSL JSSE Provider
+  1. wolfJCE v1.9 - wolfSSL JCE Provider
+  2. wolfJSSE v1.16 - wolfSSL JSSE Provider
   ...
 
 === wolfSSL FIPS JCA Cryptographic Operations Test Suite ===
 Verifying wolfJCE Provider Setup:
-   wolfJCE provider found: wolfJCE v1.0
+   wolfJCE provider found: wolfJCE v1.9
 
 Testing Message Digest Operations:
    SHA-256: a591a6d40bf420... (wolfJCE)
@@ -584,6 +584,6 @@ Same as base image:
 
 ---
 
-**Last Updated**: 2025-01-XX
+**Last Updated**: 2026-03-19
 **Version**: 1.0
 **wolfSSL FIPS Version**: v5.8.2 (Certificate #4718)

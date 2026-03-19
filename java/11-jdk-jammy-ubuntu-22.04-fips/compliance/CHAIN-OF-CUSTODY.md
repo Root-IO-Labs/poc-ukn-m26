@@ -16,8 +16,8 @@ This document establishes the chain of custody for the java container image, doc
 ## 1. Component Provenance
 
 ### 1.1 Base Image
-- **Component**: Debian 12 (Bookworm) Slim with OpenJDK 11
-- **Source**: `rootpublic/openjdk:11-jdk-bookworm-slim`
+- **Component**: Ubuntu 22.04 (Jammy) with OpenJDK 11
+- **Source**: `eclipse-temurin:11-jdk-jammy`
 - **Verification**: Container registry verification
 - **SHA256**: Verified via Docker image manifest
 - **Purpose**: Operating system foundation and Java runtime
@@ -62,7 +62,7 @@ This document establishes the chain of custody for the java container image, doc
 - **Source**: Maven Central Repository
 - **CA Certificates**: Converted from JKS to WKS format using wolfcrypt-jni
 - **Build Tools**: gcc, g++, make, automake, autoconf, libtool, git, ant, curl, p7zip-full
-- **Source**: Debian Bookworm official repositories
+- **Source**: Ubuntu 22.04 (Jammy) official repositories
 - **Verification**: APT package manager, package signatures
 
 ---
@@ -341,13 +341,13 @@ docker logs <container-id> | grep "ERROR"
 ## 9. Contact Information
 
 ### 9.1 Security Team
-- **Email**: security@Root.com
+- **Email**: security@root.com
 - **Incident Reporting**: security-incidents@Root.com
 - **Office Hours**: 24/7 for critical issues
 
 ### 9.2 Support Team
-- **Email**: support@Root.com
-- **Documentation**: https://docs.Root.com
+- **Email**: support@root.com
+- **Documentation**: https://docs.root.com
 - **Issue Tracking**: GitHub Issues
 
 ---

@@ -1,15 +1,5 @@
 
 ================================================================================
-[1m[0;36mBookworm FIPS Java - Diagnostic Runner[0m
-================================================================================
-
-[0;32m✓[0m Image found: cr.root.io/java:19-jdk-jammy-fips
-[0;32m✓[0m Diagnostics directory: /Users/kiran-abraham/Desktop/Projects/root/fips-attestations/java/19-jdk-jammy-fips/diagnostics
-
-[0;36mRunning all diagnostics...[0m
-
-
-================================================================================
 [1m[0;36mDebian FIPS Java - Test Suite[0m
 ================================================================================
 
@@ -56,26 +46,26 @@ Currently loaded security providers:
 	3. FilteredSun v1.0 - Filtered SUN for non-crypto ops
 	4. FilteredSunRsaSign v1.0 - Filtered SunRsaSign for non-crypto ops
 	5. FilteredSunEC v1.0 - Filtered SunEC for non-crypto ops
-	6. SunJGSS v19.0 - Sun (Kerberos v5, SPNEGO)
-	7. SunSASL v19.0 - Sun SASL provider(implements client mechanisms for: DIGEST-MD5, EXTERNAL, PLAIN, CRAM-MD5, NTLM; server mechanisms for: DIGEST-MD5, CRAM-MD5, NTLM)
-	8. XMLDSig v19.0 - XMLDSig (DOM XMLSignatureFactory; DOM KeyInfoFactory; C14N 1.0, C14N 1.1, Exclusive C14N, Base64, Enveloped, XPath, XPath2, XSLT TransformServices)
-	9. JdkLDAP v19.0 - JdkLDAP Provider (implements LDAP CertStore)
-	10. JdkSASL v19.0 - JDK SASL provider(implements client and server mechanisms for GSSAPI)
+	6. SunJGSS v17.0 - Sun (Kerberos v5, SPNEGO)
+	7. SunSASL v17.0 - Sun SASL provider(implements client mechanisms for: DIGEST-MD5, EXTERNAL, PLAIN, CRAM-MD5, NTLM; server mechanisms for: DIGEST-MD5, CRAM-MD5, NTLM)
+	8. XMLDSig v17.0 - XMLDSig (DOM XMLSignatureFactory; DOM KeyInfoFactory; C14N 1.0, C14N 1.1, Exclusive C14N, Base64, Enveloped, XPath, XPath2, XSLT TransformServices)
+	9. JdkLDAP v17.0 - JdkLDAP Provider (implements LDAP CertStore)
+	10. JdkSASL v17.0 - JDK SASL provider(implements client and server mechanisms for GSSAPI)
 
 Verifying wolfSSL providers are registered...
 	wolfJCE provider verified at position 1
 	wolfJSSE provider verified at position 2
 
 Verifying system CA certs are in WKS format...
-	Checking cacerts file: /usr/local/openjdk-19/lib/security/cacerts
-	Successfully loaded 140 certificates from WKS format cacerts
+	Checking cacerts file: /opt/java/openjdk/lib/security/cacerts
+	Successfully loaded 144 certificates from WKS format cacerts
 	System CA certificates verified as WKS format
 
 Forcing FIPS POST via MessageDigest invocation
 	FIPS POST test completed successfully
 
 Running sanity checks on java.security
-	Reading from: /usr/local/openjdk-19/conf/security/java.security
+	Reading from: /opt/java/openjdk/conf/security/java.security
 	Active security providers (from java.security file):
 
 ... (output truncated, full output in /tmp/java-output.log)
@@ -174,7 +164,7 @@ Currently loaded security providers:
 	3. FilteredSun v1.0 - Filtered SUN for non-crypto ops
 	4. FilteredSunRsaSign v1.0 - Filtered SunRsaSign for non-crypto ops
 	5. FilteredSunEC v1.0 - Filtered SunEC for non-crypto ops
-	6. SunJGSS v19.0 - Sun (Kerberos v5, SPNEGO)
+	6. SunJGSS v17.0 - Sun (Kerberos v5, SPNEGO)
 
 ... (output truncated, full output in /tmp/java-output.log)
 
@@ -251,8 +241,8 @@ Hash: feb85f44bb0947c8b492ba002706f161eec59fe2f42cca952fe2c61b0ad169c21ee5826994
 --------------------------------------------------------------------------------
 [0;32m✓ PASS[0m - Java runtime available
 Picked up JAVA_TOOL_OPTIONS: --add-modules=jdk.crypto.ec --add-exports=jdk.crypto.ec/sun.security.ec=ALL-UNNAMED --add-opens=jdk.crypto.ec/sun.security.ec=ALL-UNNAMED --add-opens=java.base/java.security=ALL-UNNAMED --add-opens=java.base/sun.security.provider=ALL-UNNAMED --add-opens=java.base/sun.security.util=ALL-UNNAMED --add-opens=java.base/sun.security.rsa=ALL-UNNAMED -Djava.library.path=/usr/lib/jni:/usr/local/lib
-openjdk version "17.0.10" 2024-01-16 LTS
-OpenJDK Runtime Environment Temurin-17.0.10+7 (build 17.0.10+7)
+openjdk version "17.0.18" 2026-01-20
+OpenJDK Runtime Environment Temurin-17.0.18+8 (build 17.0.18+8)
 
 ================================================================================
 Test Summary: Java Algorithm Enforcement
@@ -317,11 +307,11 @@ Note: JNI architecture uses wolfJCE/wolfJSSE providers, not OpenSSL providers
 
 [Test 5] Application-Level FIPS Environment Variables (Java)
 --------------------------------------------------------------------------------
-  JAVA_HOME: [0;32m✓ SET (path: /usr/local/openjdk-19)[0m
+  JAVA_HOME: [0;32m✓ SET (path: /opt/java/openjdk)[0m
   Java version: [0;32m✓ AVAILABLE (version: Picked up JAVA_TOOL_OPTIONS: --add-modules=jdk.crypto.ec --add-exports=jdk.crypto.ec/sun.security.ec=ALL-UNNAMED --add-opens=jdk.crypto.ec/sun.security.ec=ALL-UNNAMED --add-opens=java.base/java.security=ALL-UNNAMED --add-opens=java.base/sun.security.provider=ALL-UNNAMED --add-opens=java.base/sun.security.util=ALL-UNNAMED --add-opens=java.base/sun.security.rsa=ALL-UNNAMED -Djava.library.path=/usr/lib/jni:/usr/local/lib)[0m
   LD_LIBRARY_PATH: [0;32m✓ SET (includes: /usr/local/lib:/usr/lib/jni)[0m
   JAVA_LIBRARY_PATH: [0;32m✓ SET (includes: /usr/lib/jni:/usr/local/lib)[0m
-  Java security policy: [0;32m✓ EXISTS (path: /usr/local/openjdk-19/conf/security/java.security)[0m
+  Java security policy: [0;32m✓ EXISTS (path: /opt/java/openjdk/conf/security/java.security)[0m
 
 [0;32m✓ PASS[0m - All application-level FIPS environment variables configured
 
@@ -377,7 +367,4 @@ Test Suites Failed: 0/4
 ================================================================================
 [0;32m✓ ALL TESTS PASSED[0m
 ================================================================================
-
-
-[0;32m✓ Diagnostics completed successfully[0m
 

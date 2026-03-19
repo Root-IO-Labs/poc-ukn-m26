@@ -74,7 +74,7 @@ FIPS mode performs comprehensive validation at container startup to ensure the e
 ===============================================================================
 
 Verifying library integrity...
-✓ /usr/local/lib/libwolfssl.so.42
+✓ /usr/local/lib/libwolfssl.so.44
 ✓ /usr/lib/jni/libwolfcryptjni.so
 ✓ /usr/lib/jni/libwolfssljni.so
 ✓ /usr/share/java/wolfcrypt-jni.jar
@@ -112,7 +112,7 @@ Running sanity checks on java.security
 Testing wolfSSL algorithm class instantiation...
 	MessageDigest: SHA-256 -> wolfJCE
 	...
-	Tests passed: 75/75
+	Tests passed: 72/72
 
 All FIPS validation checks completed successfully.
 
@@ -313,7 +313,7 @@ docker run --rm -it \
    ```bash
    docker run --rm \
      -e FIPS_CHECK=false \
-     -v $(pwd)/custom-java.security:$JAVA_HOME/conf/security/java.security \
+     -v $(pwd)/custom-java.security:$JAVA_HOME/jre/lib/security/java.security \
      java:8-jdk-jammy-ubuntu-22.04-fips
    ```
 
@@ -384,8 +384,7 @@ docker run --rm -e FIPS_CHECK=$FIPS_CHECK ...
 ### Docker Compose Example
 
 ```yaml
-version: '3.8'
-
+# Docker Compose v2+ (no top-level `version` key required)
 services:
   app-production:
     image: java:8-jdk-jammy-ubuntu-22.04-fips
@@ -546,8 +545,7 @@ deploy-prod:
 
 **docker-compose.test.yml**:
 ```yaml
-version: '3.8'
-
+# Docker Compose v2+ (no top-level `version` key required)
 services:
   app:
     image: java:8-jdk-jammy-ubuntu-22.04-fips
@@ -737,6 +735,6 @@ If you must use non-FIPS mode in production (not recommended):
 
 ---
 
-**Last Updated**: 2025-01-XX
+**Last Updated**: 2026-03-19
 **Version**: 1.0
 **wolfSSL FIPS Version**: v5.8.2 (Certificate #4718)

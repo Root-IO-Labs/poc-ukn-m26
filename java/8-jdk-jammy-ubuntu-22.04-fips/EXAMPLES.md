@@ -46,7 +46,7 @@ public class SimpleHashExample {
 
 **Expected Output**:
 ```
-SHA-256 Hash: 7a3f4e8c9d2b1a5c6e8f0a2b4d6e8f0a1c3e5f7a9b0d2f4e6a8c0e2a4c6e8f0a2
+SHA-256 Hash: 7c05e26b56bd1e1f7738f395b516190d1b97e7141f720f577afe965bec126cdb
 Provider: wolfJCE
 ```
 
@@ -790,49 +790,33 @@ import java.security.cert.*;
 
 public class CreateClientKeystoreExample {
     public static void main(String[] args) throws Exception {
-        // Create new WKS keystore
+        // Prerequisite: create client-incoming.p12 once, e.g.
+        // keytool -genkeypair -alias client -keyalg RSA -keysize 2048 \
+        //   -keystore client-incoming.p12 -storetype PKCS12 -storepass changeit -validity 365
+
+        KeyStore incoming = KeyStore.getInstance("PKCS12");
+        try (FileInputStream fis = new FileInputStream("client-incoming.p12")) {
+            incoming.load(fis, "changeit".toCharArray());
+        }
+        String alias = incoming.aliases().nextElement();
+        PrivateKey privateKey = (PrivateKey) incoming.getKey(alias, "changeit".toCharArray());
+        Certificate[] chain = incoming.getCertificateChain(alias);
+
         KeyStore keyStore = KeyStore.getInstance("WKS");
-        keyStore.load(null, null);  // Initialize empty
-
-        // Load client certificate and private key (example: from PEM files)
-        // In practice, you'd have methods to load from PEM/PKCS12
-        // For this example, assume we have them
-
-        // Generate dummy key pair (replace with actual loading)
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-        keyGen.initialize(2048);
-        KeyPair keyPair = keyGen.generateKeyPair();
-
-        // Create self-signed certificate (for demo)
-        // In practice, you'd have a CA-signed certificate
-        X509Certificate cert = createSelfSignedCertificate(keyPair);
-
-        // Add private key entry
-        Certificate[] chain = {cert};
+        keyStore.load(null, null);
         keyStore.setKeyEntry(
-            "my-client-cert",                      // alias
-            keyPair.getPrivate(),                  // private key
-            "key_password".toCharArray(),          // key password
-            chain                                  // certificate chain
+            "my-client-cert",
+            privateKey,
+            "key_password".toCharArray(),
+            chain
         );
 
-        // Save keystore
         try (FileOutputStream fos = new FileOutputStream("client-keystore.wks")) {
             keyStore.store(fos, "store_password".toCharArray());
         }
 
         System.out.println("Created WKS keystore: client-keystore.wks");
         System.out.println("Entries: " + keyStore.size());
-    }
-
-    // Simplified self-signed certificate creation
-    // In production, use proper certificate generation
-    private static X509Certificate createSelfSignedCertificate(KeyPair keyPair)
-            throws Exception {
-        // This is simplified - use proper X509 certificate generation
-        // libraries in production (e.g., Bouncy Castle)
-        throw new UnsupportedOperationException(
-            "Use proper certificate generation library");
     }
 }
 ```
@@ -1065,6 +1049,6 @@ ENTRYPOINT ["java", "-jar", "/app/myapp.jar"]
 
 ---
 
-**Last Updated**: 2025-01-XX
+**Last Updated**: 2026-03-19
 **Version**: 1.0
 **wolfSSL FIPS Version**: v5.8.2 (Certificate #4718)
