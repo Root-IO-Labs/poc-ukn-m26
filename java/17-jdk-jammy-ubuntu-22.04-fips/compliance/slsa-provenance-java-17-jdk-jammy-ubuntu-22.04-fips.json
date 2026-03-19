@@ -8,7 +8,7 @@
         "baseImage": {
           "architecture": "amd64",
           "digest": "3f9e459f1cd05d1ab1a36bd6e0c1320ea2b8228b0cfd0bb56d8b99da900aad32",
-          "image": "rootioinc/java:17-jdk-jammy-ubuntu-22.04-fips"
+          "image": "cr.root.io/java:17-jdk-jammy-ubuntu-22.04-fips"
         },
         "builder": "kaniko",
         "outputImage": "905418475464.dkr.ecr.us-east-1.amazonaws.com/remediated-images:avr_ca66b0ffd11644339e0fcbd018a8f02f_rootio",
@@ -25,7 +25,7 @@
       },
       "resolvedDependencies": [
         {
-          "uri": "rootioinc/java:17-jdk-jammy-ubuntu-22.04-fips",
+          "uri": "cr.root.io/java:17-jdk-jammy-ubuntu-22.04-fips",
           "digest": {
             "sha256": "3f9e459f1cd05d1ab1a36bd6e0c1320ea2b8228b0cfd0bb56d8b99da900aad32"
           },
@@ -71,7 +71,7 @@
       }
     },
     {
-      "name": "rootioinc/java:17-jdk-jammy-ubuntu-22.04-fips_rootio",
+      "name": "cr.root.io/java:17-jdk-jammy-ubuntu-22.04-fips_rootio",
       "digest": {
         "sha256": "3f9e459f1cd05d1ab1a36bd6e0c1320ea2b8228b0cfd0bb56d8b99da900aad32"
       }

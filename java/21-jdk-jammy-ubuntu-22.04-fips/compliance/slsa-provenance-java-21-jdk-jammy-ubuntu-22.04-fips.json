@@ -8,7 +8,7 @@
         "baseImage": {
           "architecture": "amd64",
           "digest": "66cb281856794d06ecb7e559a7bb7d5df0d2cd4eb9238131eb85c321bb4a142a",
-          "image": "rootioinc/java:21-jdk-jammy-fips"
+          "image": "cr.root.io/java:21-jdk-jammy-fips"
         },
         "builder": "kaniko",
         "outputImage": "905418475464.dkr.ecr.us-east-1.amazonaws.com/remediated-images:avr_aa67f07a96874bd68a43c56cd1a6cdab_rootio",
@@ -25,7 +25,7 @@
       },
       "resolvedDependencies": [
         {
-          "uri": "rootioinc/java:21-jdk-jammy-fips",
+          "uri": "cr.root.io//java:21-jdk-jammy-fips",
           "digest": {
             "sha256": "66cb281856794d06ecb7e559a7bb7d5df0d2cd4eb9238131eb85c321bb4a142a"
           },
@@ -71,7 +71,7 @@
       }
     },
     {
-      "name": "rootioinc/java:21-jdk-jammy-fips_rootio",
+      "name": "cr.root.io//java:21-jdk-jammy-fips_rootio",
       "digest": {
         "sha256": "66cb281856794d06ecb7e559a7bb7d5df0d2cd4eb9238131eb85c321bb4a142a"
       }
