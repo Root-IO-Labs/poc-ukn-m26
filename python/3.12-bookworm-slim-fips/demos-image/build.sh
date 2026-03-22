@@ -6,7 +6,7 @@
 set -e
 
 # Default values
-BASE_IMAGE="python:3.12-bookworm-slim-fips"
+BASE_IMAGE="cr.root.io/python:3.12-bookworm-slim-fips"
 IMAGE_NAME="python-fips-demos"
 IMAGE_TAG="latest"
 

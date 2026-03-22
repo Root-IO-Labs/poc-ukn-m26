@@ -15,6 +15,7 @@ NC='\033[0m' # No Color
 # Image configuration
 IMAGE_NAME="node-fips-demos"
 IMAGE_TAG="18.20.8"
+BASE_IMAGE="cr.root.io/node:18.20.8-bookworm-slim-fips"
 
 echo ""
 echo -e "${BLUE}================================================================${NC}"
@@ -24,8 +25,8 @@ echo ""
 
 # Check if base image exists
 echo -e "${YELLOW}Checking for base image...${NC}"
-if ! docker image inspect node:18.20.8-bookworm-slim-fips &> /dev/null; then
-    echo -e "${RED}❌ Base image 'node:18.20.8-bookworm-slim-fips' not found${NC}"
+if ! docker image inspect "${BASE_IMAGE}" &> /dev/null; then
+    echo -e "${RED}❌ Base image '${BASE_IMAGE}' not found${NC}"
     echo ""
     echo "Please build the base image first:"
     echo "  cd ../18.20.8-bookworm-slim-fips"

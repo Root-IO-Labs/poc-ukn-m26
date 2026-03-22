@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide explains how to verify cosign signatures for the Node.js 18 FIPS container image (`node:18.20.8-bookworm-slim-fips`) stored in AWS ECR. The image is signed using Sigstore's keyless signing method with ephemeral keys.
+This guide explains how to verify cosign signatures for the Node.js 18 FIPS container image (`cr.root.io/node:18.20.8-bookworm-slim-fips`) stored in AWS ECR. The image is signed using Sigstore's keyless signing method with ephemeral keys.
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ This guide explains how to verify cosign signatures for the Node.js 18 FIPS cont
 
 ## Image Information
 
-**Image:** `node:18.20.8-bookworm-slim-fips`
+**Image:** `cr.root.io/node:18.20.8-bookworm-slim-fips`
 **Base:** Node.js 18.20.8 on Debian Bookworm (Slim)
 **ECR Repository:** `root-reg/node`
 **Signing Method:** Keyless signing via Sigstore
@@ -35,7 +35,7 @@ Verify the image using its tag. This is straightforward but note that tags can c
 cosign verify \
   --certificate-identity-regexp '.*' \
   --certificate-oidc-issuer-regexp '.*' \
-  <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips
+  <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips
 ```
 
 ### Method 2: Verify Using Digest (Recommended)
@@ -44,8 +44,8 @@ Verify using the image digest for immutable verification. First, get the digest 
 
 ```bash
 # Get the digest
-docker pull <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips
-docker inspect <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips --format '{{index .RepoDigests 0}}'
+docker pull <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips
+docker inspect <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips --format '{{index .RepoDigests 0}}'
 ```
 
 Then verify using the digest:
@@ -65,7 +65,7 @@ Successful verification will output JSON with signature details:
 [{
   "critical": {
     "identity": {
-      "docker-reference": "<redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips"
+      "docker-reference": "<redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips"
     },
     "image": {
       "docker-manifest-digest": "sha256:<image-digest>"
@@ -82,12 +82,12 @@ The cr.root.io proxy is read-only and doesn't store signature artifacts. To veri
 
 1. **Pull from proxy** (for runtime use):
    ```bash
-   docker pull cr.root.io/node:18.20.8-bookworm-slim-fips
+   docker pull cr.root.io/cr.root.io/node:18.20.8-bookworm-slim-fips
    ```
 
 2. **Get the digest** from the pulled image:
    ```bash
-   docker inspect cr.root.io/node:18.20.8-bookworm-slim-fips --format '{{index .RepoDigests 0}}'
+   docker inspect cr.root.io/cr.root.io/node:18.20.8-bookworm-slim-fips --format '{{index .RepoDigests 0}}'
    ```
 
 3. **Verify against ECR** using the digest:
@@ -105,12 +105,12 @@ The cr.root.io proxy is read-only and doesn't store signature artifacts. To veri
 Show the supply chain security artifacts attached to the image:
 
 ```bash
-cosign tree <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips
+cosign tree <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips
 ```
 
 Example output:
 ```
-📦 Supply Chain Security Related artifacts for an image: <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips
+📦 Supply Chain Security Related artifacts for an image: <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips
 └── 🔗 https://sigstore.dev/cosign/sign/v1 artifacts via OCI referrer: <redacted_root_ecr_base>/root-reg/node@sha256:<digest>
    └── 🍒 sha256:<signature-digest>
 ```
@@ -131,13 +131,13 @@ aws ecr describe-images \
 
 ```bash
 # Download the signature bundle
-cosign download signature <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips
+cosign download signature <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips
 
 # View certificate details
 cosign verify \
   --certificate-identity-regexp '.*' \
   --certificate-oidc-issuer-regexp '.*' \
-  <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips | jq
+  <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips | jq
 ```
 
 ## Troubleshooting
@@ -212,10 +212,10 @@ After verifying the image signature, verify FIPS components are intact:
 
 ```bash
 # Pull the verified image
-docker pull <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips
+docker pull <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips
 
 # Run FIPS KAT test
-docker run --rm <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips /test-fips
+docker run --rm <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips /test-fips
 
 # Expected output:
 # ✓ in-core integrity hash is correct, copy is identical
@@ -227,7 +227,7 @@ docker run --rm <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fip
 
 ```bash
 # Verify OpenSSL version and FIPS provider
-docker run --rm <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips bash -c "
+docker run --rm <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips bash -c "
 openssl version && \
 openssl list -providers
 "
@@ -245,7 +245,7 @@ openssl list -providers
 
 ```bash
 # Run FIPS initialization check script
-docker run --rm <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips \
+docker run --rm <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips \
   node /opt/wolfssl-fips/bin/fips_init_check.js
 
 # Expected output:
@@ -281,7 +281,7 @@ cd node/18.20.8-bookworm-slim-fips
 Verify that weak cipher suites (MD5, SHA-1, DES, 3DES, RC4) are blocked in TLS:
 
 ```bash
-docker run --rm <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips node -e "
+docker run --rm <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips node -e "
 const tls = require('tls');
 const crypto = require('crypto');
 
@@ -326,7 +326,7 @@ Verify that MD5 and SHA-1 are available at hash API level (correct FIPS 140-3 be
 
 ```bash
 # Test hash algorithm availability
-docker run --rm <redacted_root_ecr_base>/root-reg/node:18.20.8-bookworm-slim-fips node -e "
+docker run --rm <redacted_root_ecr_base>/root-reg/cr.root.io/node:18.20.8-bookworm-slim-fips node -e "
 const crypto = require('crypto');
 
 // MD5 and SHA-1 should work at hash API level (per FIPS 140-3 #4718)

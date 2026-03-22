@@ -2,7 +2,7 @@
 
 ## Document Information
 
-- **Image**: python:3.12-bookworm-slim-fips
+- **Image**: cr.root.io/python:3.12-bookworm-slim-fips
 - **Date**: 2026-03-21
 - **Version**: 1.0
 - **Status**: ✅ **VERIFIED - 100% POC CRITERIA MET**
@@ -78,16 +78,16 @@ May still work (uses Python's built-in implementation, not OpenSSL). This is acc
 # Run FIPS verification test
 cd python/3.12-bookworm-slim-fips
 docker run --rm -v $(pwd)/diagnostics:/diagnostics \
-  python:3.12-bookworm-slim-fips \
+  cr.root.io/python:3.12-bookworm-slim-fips \
   python3 /diagnostics/test-fips-verification.py
 
 # Run backend verification test
 docker run --rm -v $(pwd)/diagnostics:/diagnostics \
-  python:3.12-bookworm-slim-fips \
+  cr.root.io/python:3.12-bookworm-slim-fips \
   python3 /diagnostics/test-backend-verification.py
 
 # Test MD5 blocking at OpenSSL level
-docker run --rm python:3.12-bookworm-slim-fips \
+docker run --rm cr.root.io/python:3.12-bookworm-slim-fips \
   bash -c "echo -n 'test' | openssl dgst -md5"
 ```
 
@@ -196,11 +196,11 @@ docker run --rm python-fips-demos:latest python3 hash_algorithm_demo.py
 # Run all diagnostic tests (5 test suites)
 cd python/3.12-bookworm-slim-fips
 docker run --rm -v $(pwd)/diagnostics:/diagnostics \
-  python:3.12-bookworm-slim-fips \
+  cr.root.io/python:3.12-bookworm-slim-fips \
   bash -c 'cd /diagnostics && ./run-all-tests.sh'
 
 # Run default entrypoint to verify live FIPS stack
-docker run --rm python:3.12-bookworm-slim-fips python3 -c "import ssl; print(ssl.OPENSSL_VERSION)"
+docker run --rm cr.root.io/python:3.12-bookworm-slim-fips python3 -c "import ssl; print(ssl.OPENSSL_VERSION)"
 ```
 
 #### Expected Output (5 diagnostic test suites - 100%)
@@ -322,15 +322,15 @@ OpenSSL 3.0.18 30 Sep 2025
 
 ```bash
 # Verify library presence
-docker run --rm python:3.12-bookworm-slim-fips \
+docker run --rm cr.root.io/python:3.12-bookworm-slim-fips \
   bash -c "ls -lh /usr/local/lib/libwolfssl.so* /usr/local/lib/libwolfprov.so*"
 
 # Verify OpenSSL configuration
-docker run --rm python:3.12-bookworm-slim-fips \
+docker run --rm cr.root.io/python:3.12-bookworm-slim-fips \
   bash -c "cat /etc/ssl/openssl.cnf | grep -A5 'libwolfprov'"
 
 # Verify runtime enforcement
-docker run --rm python:3.12-bookworm-slim-fips \
+docker run --rm cr.root.io/python:3.12-bookworm-slim-fips \
   bash -c "echo -n 'test' | openssl dgst -md5"
 ```
 
@@ -433,8 +433,8 @@ error:0308010C:digital envelope routines:inner_evp_generic_fetch:unsupported
 
 | Operation | Tool | Command |
 |-----------|------|---------|
-| **Sign image** | Cosign | `cosign sign --key cosign.key <registry>/python:3.12-bookworm-slim-fips` |
-| **Verify signature** | Cosign | `cosign verify --key cosign.pub <registry>/python:3.12-bookworm-slim-fips` |
+| **Sign image** | Cosign | `cosign sign --key cosign.key <registry>/cr.root.io/python:3.12-bookworm-slim-fips` |
+| **Verify signature** | Cosign | `cosign verify --key cosign.pub <registry>/cr.root.io/python:3.12-bookworm-slim-fips` |
 | **Attach SLSA** | Cosign | `cosign attest --predicate slsa-provenance-*.json` |
 | **Verify SLSA** | Cosign | `cosign verify-attestation --type slsaprovenance` |
 
@@ -446,7 +446,7 @@ cd python/3.12-bookworm-slim-fips/compliance
 ./generate-sbom.sh
 
 # Or scan a specific registry image
-./generate-sbom.sh <registry>/python:3.12-bookworm-slim-fips
+./generate-sbom.sh <registry>/cr.root.io/python:3.12-bookworm-slim-fips
 ```
 
 ---
@@ -483,7 +483,7 @@ cd python/3.12-bookworm-slim-fips/compliance
 # Run all diagnostic tests via master runner
 cd python/3.12-bookworm-slim-fips
 docker run --rm -v $(pwd)/diagnostics:/diagnostics \
-  python:3.12-bookworm-slim-fips \
+  cr.root.io/python:3.12-bookworm-slim-fips \
   bash -c 'cd /diagnostics && ./run-all-tests.sh'
 
 # Expected output:
@@ -601,10 +601,10 @@ This image implements a **defense-in-depth FIPS policy** across three layers:
 1. **Container Startup Validation**: The entrypoint automatically runs FIPS validation on every startup. Do not disable `FIPS_CHECK` in production:
    ```bash
    # Default (recommended)
-   docker run python:3.12-bookworm-slim-fips python3 app.py
+   docker run cr.root.io/python:3.12-bookworm-slim-fips python3 app.py
 
    # Development only - disables validation
-   docker run -e FIPS_CHECK=false python:3.12-bookworm-slim-fips python3 app.py
+   docker run -e FIPS_CHECK=false cr.root.io/python:3.12-bookworm-slim-fips python3 app.py
    ```
 
 2. **Host Kernel FIPS** (optional): For defense-in-depth, enable FIPS mode on the container host:
@@ -618,7 +618,7 @@ This image implements a **defense-in-depth FIPS policy** across three layers:
    ```bash
    cd python/3.12-bookworm-slim-fips
    docker run --rm -v $(pwd)/diagnostics:/diagnostics \
-     python:3.12-bookworm-slim-fips \
+     cr.root.io/python:3.12-bookworm-slim-fips \
      bash -c 'cd /diagnostics && ./run-all-tests.sh'
    ```
 
@@ -632,7 +632,7 @@ This image implements a **defense-in-depth FIPS policy** across three layers:
 
 1. **Image Signing**: Sign images with Cosign before deployment to registry
    ```bash
-   cosign sign --key cosign.key <registry>/python:3.12-bookworm-slim-fips
+   cosign sign --key cosign.key <registry>/cr.root.io/python:3.12-bookworm-slim-fips
    ```
 
 2. **SBOM Distribution**: Include SPDX SBOM with all image distributions
@@ -644,7 +644,7 @@ This image implements a **defense-in-depth FIPS policy** across three layers:
 
 ## Conclusion
 
-The `python:3.12-bookworm-slim-fips` container image **fully satisfies all FIPS POC criteria**:
+The `cr.root.io/python:3.12-bookworm-slim-fips` container image **fully satisfies all FIPS POC criteria**:
 
 - ✅ **Test Case 1**: Algorithm enforcement via wolfProvider — **100% VERIFIED**
 - ✅ **Test Case 2**: Python cryptographic validation — **100% VERIFIED**

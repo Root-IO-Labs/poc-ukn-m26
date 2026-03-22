@@ -8,6 +8,8 @@
 - **Architecture**: Provider-based (OpenSSL 3.0 + wolfProvider)
 - **Status**: Production-ready POC
 
+> **Note:** The published `cr.root.io` image reflects this configuration; run `node /opt/wolfssl-fips/bin/fips_init_check.js` or `./diagnostic.sh` to verify on your digest.
+
 ---
 
 ## Overview

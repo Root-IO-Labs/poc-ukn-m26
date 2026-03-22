@@ -6,7 +6,7 @@
 set -e
 
 # Default values
-BASE_IMAGE="node:18.20.8-bookworm-slim-fips"
+BASE_IMAGE="cr.root.io/node:18.20.8-bookworm-slim-fips"
 IMAGE_NAME="node-fips-test"
 IMAGE_TAG="latest"
 

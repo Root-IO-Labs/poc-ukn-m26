@@ -2,7 +2,7 @@
 
 ## Document Information
 
-- **Image**: node:18.20.8-bookworm-slim-fips
+- **Image**: cr.root.io/node:18.20.8-bookworm-slim-fips
 - **Date**: 2026-03-22
 - **Version**: 1.0
 - **Status**: ✅ **VERIFIED - 90% POC CRITERIA MET**
@@ -11,7 +11,7 @@
 
 ## Executive Summary
 
-This document provides evidence that the `node:18.20.8-bookworm-slim-fips` container image satisfies all FIPS Proof of Concept (POC) criteria for federal and enterprise-grade hardening standards, including FIPS 140-3 enablement and compliance requirements.
+This document provides evidence that the `cr.root.io/node:18.20.8-bookworm-slim-fips` container image satisfies all FIPS Proof of Concept (POC) criteria for federal and enterprise-grade hardening standards, including FIPS 140-3 enablement and compliance requirements.
 
 **Overall Compliance Status: ✅ 89% COMPLETE (34/38 tests passing)**
 
@@ -229,7 +229,7 @@ docker run --rm node-fips-test:latest
 
 ```bash
 # Run FIPS KAT tests
-docker run --rm node:18.20.8-bookworm-slim-fips /test-fips
+docker run --rm cr.root.io/node:18.20.8-bookworm-slim-fips /test-fips
 
 # Run backend verification (6 tests)
 cd node/18.20.8-bookworm-slim-fips
@@ -557,9 +557,9 @@ Test Results: Library Compatibility
 
 | Operation | Tool | Command |
 |-----------|------|---------|
-| **Sign image** | Cosign | `cosign sign --key cosign.key node:18.20.8-bookworm-slim-fips` |
-| **Verify signature** | Cosign | `cosign verify --key cosign.pub node:18.20.8-bookworm-slim-fips` |
-| **Generate SBOM** | Trivy | `trivy image --format spdx-json -o SBOM.spdx.json node:18.20.8-bookworm-slim-fips` |
+| **Sign image** | Cosign | `cosign sign --key cosign.key cr.root.io/node:18.20.8-bookworm-slim-fips` |
+| **Verify signature** | Cosign | `cosign verify --key cosign.pub cr.root.io/node:18.20.8-bookworm-slim-fips` |
+| **Generate SBOM** | Trivy | `trivy image --format spdx-json -o SBOM.spdx.json cr.root.io/node:18.20.8-bookworm-slim-fips` |
 
 ---
 
@@ -589,7 +589,7 @@ cd node/18.20.8-bookworm-slim-fips
 ./diagnostic.sh
 
 # Run FIPS KAT tests
-docker run --rm node:18.20.8-bookworm-slim-fips /test-fips
+docker run --rm cr.root.io/node:18.20.8-bookworm-slim-fips /test-fips
 
 # Run test image (quick validation)
 cd diagnostics/test-images/basic-test-image
@@ -734,7 +734,7 @@ This image implements FIPS enforcement at the **OpenSSL provider layer**:
 
 ## Conclusion
 
-The `node:18.20.8-bookworm-slim-fips` container image **satisfies all FIPS POC criteria**:
+The `cr.root.io/node:18.20.8-bookworm-slim-fips` container image **satisfies all FIPS POC criteria**:
 
 - ✅ **Test Case 1**: Algorithm enforcement via wolfProvider — **100% VERIFIED**
 - ✅ **Test Case 2**: Node.js cryptographic validation — **100% VERIFIED**

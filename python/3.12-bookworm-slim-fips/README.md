@@ -40,13 +40,13 @@ echo "your_password_here" > wolfssl_password.txt
 
 ```bash
 # Run Python with FIPS verification
-docker run -it python:3.12-bookworm-slim-fips python3
+docker run -it cr.root.io/python:3.12-bookworm-slim-fips python3
 
 # Run with FIPS checks disabled (development only)
-docker run -it -e FIPS_CHECK=false python:3.12-bookworm-slim-fips python3
+docker run -it -e FIPS_CHECK=false cr.root.io/python:3.12-bookworm-slim-fips python3
 
 # Run your application
-docker run -v $(pwd)/app:/app python:3.12-bookworm-slim-fips python3 /app/main.py
+docker run -v $(pwd)/app:/app cr.root.io/python:3.12-bookworm-slim-fips python3 /app/main.py
 ```
 
 ## Verification
@@ -60,7 +60,7 @@ The container performs automatic FIPS verification on startup:
 
 To skip verification (development only):
 ```bash
-docker run -e FIPS_CHECK=false python:3.12-bookworm-slim-fips python3
+docker run -e FIPS_CHECK=false cr.root.io/python:3.12-bookworm-slim-fips python3
 ```
 
 ## Testing
@@ -69,11 +69,11 @@ docker run -e FIPS_CHECK=false python:3.12-bookworm-slim-fips python3
 
 ```bash
 # Run all diagnostic tests
-docker run -v $(pwd)/diagnostics:/diagnostics python:3.12-bookworm-slim-fips \
+docker run -v $(pwd)/diagnostics:/diagnostics cr.root.io/python:3.12-bookworm-slim-fips \
     /diagnostics/run-all-tests.sh
 
 # Run individual test suites
-docker run -v $(pwd)/diagnostics:/tests python:3.12-bookworm-slim-fips \
+docker run -v $(pwd)/diagnostics:/tests cr.root.io/python:3.12-bookworm-slim-fips \
     python3 /tests/test-fips-verification.py
 ```
 
